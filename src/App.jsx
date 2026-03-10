@@ -999,8 +999,9 @@ export default function CVPortfolioWebsite() {
                   Thanks for taking the time to look through my work.
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-zinc-200">
-                  I would be glad to share additional project details, walkthroughs, or
-                  private materials where access is restricted.
+                  Thank you for taking the time to review my work. I’d be grateful for
+                  the opportunity to contribute with focus, learn quickly, and grow
+                  alongside a strong team.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
                   <Button asChild className="rounded-2xl px-6 py-6 text-base">

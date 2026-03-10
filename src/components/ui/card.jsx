@@ -3,5 +3,5 @@ export function Card({ className = '', ...props }) {
 }
 
 export function CardContent({ className = '', ...props }) {
-  return <div className={`p-6 pt-0 ${className}`.trim()} {...props} />;
+  return <div className={`p-6 ${className}`.trim()} {...props} />;
 }
