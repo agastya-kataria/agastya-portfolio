@@ -96,6 +96,17 @@ const projects = [
     repoHref: "https://github.com/agastya-kataria/quantlab-suite",
     privateNote: null,
     screenshot: assetPath("screenshots/quantlab-dashboard.png"),
+    gallery: [
+      assetPath("screenshots/quantlab-dashboard.png"),
+      assetPath("screenshots/quantlab-02.png"),
+      assetPath("screenshots/quantlab-03.png"),
+      assetPath("screenshots/quantlab-04.png"),
+      assetPath("screenshots/quantlab-05.png"),
+      assetPath("screenshots/quantlab-06.png"),
+      assetPath("screenshots/quantlab-07.png"),
+      assetPath("screenshots/quantlab-08.png"),
+      assetPath("screenshots/quantlab-09.png"),
+    ],
     caseStudy: {
       challenge:
         "Create a project that demonstrates trading-system design and quantitative depth beyond a narrow toy demo.",
@@ -126,6 +137,19 @@ const projects = [
     repoHref: "https://github.com/agastya-kataria/PME-Toolkit",
     privateNote: null,
     screenshot: assetPath("screenshots/pme-toolkit-dashboard.png"),
+    gallery: [
+      assetPath("screenshots/pme-toolkit-dashboard.png"),
+      assetPath("screenshots/pme-toolkit-02.png"),
+      assetPath("screenshots/pme-toolkit-03.png"),
+      assetPath("screenshots/pme-toolkit-04.png"),
+      assetPath("screenshots/pme-toolkit-05.png"),
+      assetPath("screenshots/pme-toolkit-06.png"),
+      assetPath("screenshots/pme-toolkit-07.png"),
+      assetPath("screenshots/pme-toolkit-08.png"),
+      assetPath("screenshots/pme-toolkit-09.png"),
+      assetPath("screenshots/pme-toolkit-10.png"),
+      assetPath("screenshots/pme-toolkit-11.png"),
+    ],
     caseStudy: {
       challenge:
         "Translate private-markets portfolio theory into a practical tool useful for real analysis.",
@@ -156,6 +180,15 @@ const projects = [
     repoHref: "https://github.com/agastya-kataria/portfolio-management",
     privateNote: null,
     screenshot: assetPath("screenshots/fixed-income-dashboard.png"),
+    gallery: [
+      assetPath("screenshots/fixed-income-dashboard.png"),
+      assetPath("screenshots/fixed-income-02.png"),
+      assetPath("screenshots/fixed-income-03.png"),
+      assetPath("screenshots/fixed-income-04.png"),
+      assetPath("screenshots/fixed-income-05.png"),
+      assetPath("screenshots/fixed-income-06.png"),
+      assetPath("screenshots/fixed-income-07.png"),
+    ],
     caseStudy: {
       challenge:
         "Build a fixed income tool that feels useful in practice, not just theoretically correct.",
@@ -187,6 +220,7 @@ const projects = [
     privateNote:
       "This is an ongoing university project with the firm Toast. The repository is in GitLab and currently not accessible without TCD Wi-Fi or VPN.",
     screenshot: null,
+    gallery: [],
     caseStudy: {
       challenge:
         "Deliver reliable backend functionality in a collaborative project connected to a real company workflow.",
@@ -327,6 +361,18 @@ function ProjectVisual({ project, alt, className = "" }) {
 }
 
 function ProjectModal({ project, onClose }) {
+  const gallery =
+    project?.gallery?.length
+      ? project.gallery
+      : project?.screenshot
+      ? [project.screenshot]
+      : [];
+  const [activeScreenshot, setActiveScreenshot] = useState(gallery[0] || null);
+
+  useEffect(() => {
+    setActiveScreenshot(gallery[0] || null);
+  }, [project?.id]);
+
   if (!project) return null;
 
   return (
@@ -442,11 +488,38 @@ function ProjectModal({ project, onClose }) {
                   </div>
                   <div className="aspect-[16/10]">
                     <ProjectVisual
-                      project={project}
+                      project={{
+                        ...project,
+                        screenshot: activeScreenshot || project.screenshot,
+                      }}
                       alt={`${project.title} preview`}
                       className="aspect-[16/10]"
                     />
                   </div>
+                  {gallery.length > 1 ? (
+                    <div className="mt-3 grid grid-cols-3 gap-2">
+                      {gallery.map((imageSrc, index) => (
+                        <button
+                          key={imageSrc}
+                          type="button"
+                          onClick={() => setActiveScreenshot(imageSrc)}
+                          className={`overflow-hidden rounded-lg border ${
+                            activeScreenshot === imageSrc
+                              ? "border-emerald-300"
+                              : "border-white/15"
+                          }`}
+                          aria-label={`Open ${project.title} screenshot ${index + 1}`}
+                        >
+                          <img
+                            src={imageSrc}
+                            alt={`${project.title} screenshot ${index + 1}`}
+                            className="h-16 w-full object-cover"
+                            loading="lazy"
+                          />
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
                   <p className="mt-3 text-sm leading-6 text-zinc-300">
                     For public projects, this panel uses screenshots from
                     <span className="text-zinc-100"> public/screenshots/</span>. If an image is
