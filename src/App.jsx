@@ -30,17 +30,16 @@ const headingEyebrow =
   "mb-3 text-sm font-semibold uppercase tracking-[0.24em] text-zinc-300";
 const sectionTitle = "text-3xl font-semibold tracking-tight text-white sm:text-4xl";
 
-const getBaseUrl = () => {
-  if (typeof window === "undefined") return "/";
-  const path = window.location.pathname || "/";
-  if (path.endsWith(".html")) {
-    const parts = path.split("/").filter(Boolean);
-    if (parts.length > 1) return `/${parts[0]}/`;
-  }
-  return "/";
-};
+const baseUrl = import.meta.env.BASE_URL || "/";
 
-const assetPath = (fileName) => `${getBaseUrl()}${encodeURIComponent(fileName)}`;
+const assetPath = (filePath) => {
+  const encodedPath = filePath
+    .split("/")
+    .map((segment) => encodeURIComponent(segment))
+    .join("/");
+
+  return `${baseUrl}${encodedPath}`;
+};
 
 const links = {
   email: "mailto:agastyakataria17@gmail.com",
