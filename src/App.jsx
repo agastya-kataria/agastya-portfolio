@@ -49,8 +49,8 @@ const links = {
   email: "mailto:agastyakataria17@gmail.com",
   github: "https://github.com/agastya-kataria",
   linkedin: "https://www.linkedin.com/in/agastyakataria176/",
-  cvPdf: assetPath("Agastya_Kataria Resume.pdf"),
-  coverLetterPdf: assetPath("Agastya_Kataria Cover Letter.pdf"),
+  cvPdf: assetPath("Agastya_Kataria_Resume.pdf"),
+  coverLetterPdf: assetPath("Agastya_Kataria_Cover_Letter.pdf"),
 };
 
 const skills = [
@@ -992,7 +992,8 @@ export default function CVPortfolioWebsite() {
                 <div className="mt-5 space-y-4 text-zinc-200">
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                     CV and cover letter links point to files in
-                    <span className="text-white"> public/</span> with exact filenames.
+                    <span className="text-white"> public/</span>. Both space-based and
+                    underscore-based filenames are supported for reliability.
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                     Project visuals load from

@@ -35,6 +35,8 @@ Keep these files in `public/` so links work in production:
 
 - `Agastya_Kataria Resume.pdf`
 - `Agastya_Kataria Cover Letter.pdf`
+- `Agastya_Kataria_Resume.pdf`
+- `Agastya_Kataria_Cover_Letter.pdf`
 - `screenshots/quantlab-dashboard.png`
 - `screenshots/pme-toolkit-dashboard.png`
 - `screenshots/fixed-income-dashboard.png`
