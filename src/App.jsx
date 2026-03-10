@@ -779,7 +779,6 @@ export default function CVPortfolioWebsite() {
                         </div>
                         <div>
                           <h3 className="text-xl font-semibold text-white">{project.title}</h3>
-                          <p className="text-sm text-zinc-200">{project.period}</p>
                         </div>
                       </div>
                     </div>
