@@ -589,7 +589,7 @@ export default function CVPortfolioWebsite() {
 
             <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300 sm:text-xl">
               I’m Agastya Kataria, a Computer Science undergraduate at Trinity College Dublin with an
-              <span className="font-semibold text-white"> 86% latest percentage</span>, a strong olympiad-level mathematical background,
+              <span className="font-semibold text-white"> 81% latest percentage</span>, a strong olympiad-level mathematical background,
               and hands-on experience across backend systems, analytics platforms, and quantitative finance tools.
               This website is intended to work as both my CV and a concise introduction to how I think, build, and contribute.
             </p>
@@ -662,7 +662,7 @@ export default function CVPortfolioWebsite() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
-                    ["Latest Percentage", "86%"],
+                    ["Latest Percentage", "81%"],
                     ["University", "Trinity College Dublin"],
                     ["Core Strength", "Backend + Quantitative Systems"],
                     ["Academic Standing", "First Class Honours (Distinction)"],
@@ -948,7 +948,7 @@ export default function CVPortfolioWebsite() {
                     <div>Trinity College Dublin</div>
                     <div className="text-sm text-zinc-400">Sep 2024 – Present</div>
                     <div className="mt-2 rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200">
-                      Latest academic percentage: 86% • First Class Honours (Distinction)
+                      Latest academic percentage: 81% • First Class Honours (Distinction)
                     </div>
                   </div>
                   <div>
