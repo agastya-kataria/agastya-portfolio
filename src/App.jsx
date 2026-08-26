@@ -233,7 +233,7 @@ const projects = [
 ];
 
 const achievements = [
-  "86% latest academic percentage",
+  "81% latest academic percentage",
   "First Class Honours (Distinction) in Computer Science at Trinity College Dublin",
   "International Mathematical Olympiad medals with highest international rank 13",
   "International Science Olympiad rank 27",
