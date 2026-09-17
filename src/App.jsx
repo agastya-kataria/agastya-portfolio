@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
+  Activity,
   BarChart3,
   Briefcase,
   CheckCircle2,
@@ -14,6 +15,9 @@ import {
   Linkedin,
   Lock,
   Mail,
+  Plane,
+  ShieldCheck,
+  Sparkles,
   Trophy,
   X,
 } from "lucide-react";
@@ -49,45 +53,112 @@ const links = {
   coverLetterPdf: assetPath("Agastya_Kataria_Cover_Letter.pdf"),
 };
 
-const skills = [
-  "Java",
-  "Python",
-  "C",
-  "SQL",
-  "R",
-  "React",
-  "FastAPI",
-  "Flask",
-  "Node.js",
-  "PostgreSQL",
-  "Docker",
-  "Kafka",
-  "REST APIs",
-  "Data Structures & Algorithms",
-  "OOP",
-  "Portfolio Optimization",
-  "Risk Modelling",
-  "Monte Carlo Simulation",
-  "Black–Scholes",
-  "VaR",
-  "Machine Learning",
-  "Streamlit",
+const skillGroups = [
+  {
+    label: "Languages",
+    skills: ["Python", "Java", "SQL"],
+  },
+  {
+    label: "Frameworks & data",
+    skills: [
+      "Spring Boot",
+      "FastAPI",
+      "Flask",
+      "React",
+      "Pandas",
+      "NumPy",
+      "SciPy",
+      "Matplotlib",
+      "Plotly",
+    ],
+  },
+  {
+    label: "Infrastructure",
+    skills: [
+      "PostgreSQL",
+      "Docker",
+      "Kubernetes",
+      "Kafka",
+      "Prometheus",
+      "Git",
+      "Linux",
+      "Gradle",
+    ],
+  },
+  {
+    label: "Security & observability",
+    skills: ["Elasticsearch", "Logstash", "Kibana", "SIEM", "Threat Detection"],
+  },
+  {
+    label: "Engineering & modelling",
+    skills: [
+      "REST APIs",
+      "Data Structures & Algorithms",
+      "Distributed Systems",
+      "Machine Learning",
+      "FIX Protocol",
+      "Value-at-Risk",
+      "Financial Modelling",
+    ],
+  },
+];
+
+const courses = [
+  "Mathematics for Machine Learning · Imperial",
+  "Data Structures & Algorithms · UCSD",
+  "Finance & Quantitative Modeling · Wharton",
+  "Cybersecurity Fundamentals · IBM",
+  "Introduction to CS & Programming using Python · MITx",
+  "Financial Markets · Yale",
+  "Web Development & API Specialization · Coursera",
 ];
 
 const projects = [
+  {
+    id: "security-platform",
+    title: "Security Platform Suite",
+    period: "CRIS Internship · 2026",
+    icon: <ShieldCheck className="h-5 w-5" />,
+    description:
+      "Three integrated cybersecurity builds spanning SIEM threat detection, machine-learning phishing detection, and security-awareness simulation.",
+    highlights: [
+      "Processed 100,000+ synthetic Windows and Linux security events through an ELK-based SIEM with 10 detection rules and automated incident reports",
+      "Trained phishing classifiers on 15,600+ URL and email samples, then served real-time predictions through a Flask API and Chrome extension",
+      "Built PhishGuard with campaign management, user-interaction tracking, department analytics, and automated awareness reporting",
+    ],
+    tags: ["Cybersecurity", "ELK Stack", "Machine Learning"],
+    repoLabel: "Internship project source",
+    repoHref: null,
+    privateNote:
+      "The project source is not currently linked publicly, but the architecture and implementation are documented in this case study.",
+    screenshot: null,
+    gallery: [],
+    caseStudy: {
+      challenge:
+        "Create an end-to-end security platform that could ingest realistic telemetry, detect suspicious activity, protect users from phishing, and support awareness training.",
+      solution:
+        "Combined an ELK monitoring pipeline, a production-minded phishing classifier, a browser protection workflow, and a Flask-based simulation platform.",
+      impact: [
+        "Covered brute-force attacks, privilege escalation, malware execution, C2 activity, and suspicious logons",
+        "Handled a real offline-to-online ML consistency issue by retaining only features available at inference time",
+        "Turned security events and campaign interactions into actionable dashboards and reports",
+      ],
+      mockTitle: "Cybersecurity platform overview",
+    },
+  },
   {
     id: "quantlab",
     title: "QuantLab-Suite",
     period: "2024 – 2025",
     icon: <BarChart3 className="h-5 w-5" />,
     description:
-      "A full-stack algorithmic trading and risk management platform covering multi-asset trading workflows, market microstructure simulation, portfolio risk analytics, and machine-learning-driven strategies.",
+      "A modular Java and Python trading simulator for exploring order execution, portfolio analytics, and risk modelling.",
     highlights: [
-      "Designed institutional-style architecture spanning order management, strategy execution, and real-time risk systems",
-      "Implemented VaR, Expected Shortfall, scenario analysis, and event-driven backtesting infrastructure",
-      "Integrated ML strategy experimentation and high-frequency trading simulation concepts",
+      "Implemented multiple order types, FIX message simulation, portfolio performance tracking, volatility estimation, and stress testing",
+      "Built Historical and Monte Carlo Value-at-Risk workflows for portfolio risk analysis",
+      "Explored a microservice architecture with Docker, PostgreSQL, Kafka, and Prometheus",
     ],
-    tags: ["Algorithmic Trading", "Risk Analytics", "Full Stack"],
+    tags: ["Java + Python", "Risk Analytics", "Distributed Systems"],
     repoLabel: "View GitHub repository",
     repoHref: "https://github.com/agastya-kataria/quantlab-suite",
     privateNote: null,
@@ -105,13 +176,13 @@ const projects = [
     ],
     caseStudy: {
       challenge:
-        "Build a project that demonstrates the architecture and analytical depth of real trading infrastructure rather than a narrow demo.",
+        "Bring trading workflows, portfolio analytics, and risk modelling together in a modular system rather than a narrow calculator.",
       solution:
-        "Designed a modular platform combining trading system components, quantitative analytics, and machine learning experimentation.",
+        "Combined Java and Python components for order execution, FIX simulation, portfolio tracking, risk analysis, and infrastructure experimentation.",
       impact: [
-        "Demonstrates end-to-end thinking across trading systems and analytics",
-        "Shows strong range in financial engineering and backend system design",
-        "Acts as a flagship quantitative engineering portfolio project",
+        "Connects financial modelling with practical software architecture",
+        "Demonstrates Historical and Monte Carlo VaR in a broader portfolio workflow",
+        "Explores observability and event-driven components used in distributed systems",
       ],
       mockTitle: "QuantLab trading dashboard",
     },
@@ -201,14 +272,14 @@ const projects = [
   {
     id: "toast",
     title: "Toast – Rollout Feature Flag Platform",
-    period: "2026 – Present",
+    period: "Jan – Apr 2026",
     icon: <Briefcase className="h-5 w-5" />,
     description:
-      "An ongoing university software engineering project developed with the firm Toast to build a feature-flag platform enabling controlled rollout and rollback of production features.",
+      "A ten-week university software engineering project developed with Toast to enable controlled rollout and rollback of production features.",
     highlights: [
-      "Designed user models including name, email, team prefixes, and accessible feature flags",
-      "Implemented backend logic and integrated user functionality with authentication",
-      "Contributed to logging systems, conditional flags, rollout mechanisms, and REST API design",
+      "Implemented CRUD services, DTO layers, persistence models, and service-layer validation for feature flags and users",
+      "Designed deterministic percentage rollouts by hashing user IDs into 100 exposure bins",
+      "Integrated user functionality with authentication and contributed to logging, conditional flags, and REST API design",
     ],
     tags: ["Backend", "REST APIs", "Industry Project"],
     repoLabel: "Private university GitLab project",
@@ -230,28 +301,100 @@ const projects = [
       mockTitle: "Feature flag rollout workflow",
     },
   },
+  {
+    id: "atmoslens",
+    title: "AtmosLens HoloViz Air-Quality App",
+    period: "2026",
+    icon: <Activity className="h-5 w-5" />,
+    description:
+      "An interactive decision-support application that turns air-quality forecasts into location-aware activity recommendations.",
+    highlights: [
+      "Visualized Open-Meteo forecasts with Panel, HoloViews, GeoViews, hvPlot, Datashader, DuckDB, and Xarray",
+      "Built health-profile configuration, exposure scoring, location search, and forecast refresh workflows",
+      "Added more than 250 automated tests covering recommendation logic, data access, SQL integration, and core application behaviour",
+    ],
+    tags: ["Python", "Data Visualisation", "Testing"],
+    repoLabel: "Project repository not linked",
+    repoHref: null,
+    privateNote: "A public repository link can be added when the project is published.",
+    screenshot: null,
+    gallery: [],
+    caseStudy: {
+      challenge:
+        "Make complex forecast data understandable enough to support practical, health-aware activity decisions.",
+      solution:
+        "Built an interactive geospatial dashboard with configurable health profiles, exposure scoring, and recommendation logic backed by extensive automated testing.",
+      impact: [
+        "Combined live environmental data with a clear user decision workflow",
+        "Demonstrated breadth across analytics, geospatial visualisation, SQL, and application testing",
+        "Validated core behaviour with a test suite of more than 250 cases",
+      ],
+      mockTitle: "Air-quality decision dashboard",
+    },
+  },
+  {
+    id: "flight-analyser",
+    title: "Flight Data Analyser",
+    period: "2025",
+    icon: <Plane className="h-5 w-5" />,
+    description:
+      "A Skyscanner-inspired Java application for exploring, filtering, and comparing large real-world flight datasets.",
+    highlights: [
+      "Processed more than 10,000 flight-log entries to identify patterns, route options, and pricing insights",
+      "Built interactive search, filtering, comparison, and data-visualisation workflows using Java and Processing",
+      "Implemented custom search algorithms and performance-tuned result rendering",
+    ],
+    tags: ["Java", "Data Analysis", "Algorithms"],
+    repoLabel: "Project repository not linked",
+    repoHref: null,
+    privateNote: "A public repository link can be added when the project is published.",
+    screenshot: null,
+    gallery: [],
+    caseStudy: {
+      challenge:
+        "Turn a large, unstructured flight dataset into a responsive application for route and pricing exploration.",
+      solution:
+        "Designed a Java application with custom parsing, search, filtering, comparisons, dashboards, and tuned rendering.",
+      impact: [
+        "Demonstrated practical data-structures and algorithms work on 10,000+ records",
+        "Connected data processing with a complete interactive user interface",
+        "Focused on usability and performance rather than analysis in isolation",
+      ],
+      mockTitle: "Flight search and analysis dashboard",
+    },
+  },
 ];
 
 const achievements = [
-  "81% latest academic percentage",
-  "First Class Honours (Distinction) in Computer Science at Trinity College Dublin",
-  "International Mathematical Olympiad medals with highest international rank 13",
-  "International Science Olympiad rank 27",
-  "Member of Trinity Student Management Fund",
+  "First Class Honours (Distinction) in Computer Science · 81%",
+  "International Mathematical Olympiad · multiple medals and highest international rank 13",
+  "International Science Olympiad · rank 27",
+  "Eurofest 2019 · 2nd place, Odyssey of the Mind",
+  "Trinity Student Management Fund member · approximately €700k AUM",
 ];
 
 const experience = [
   {
-    title: "Backend Developer",
-    org: "Toast – Rollout Feature Flag Platform",
-    period: "2026 – Present",
-    text: "Contributing to an ongoing university software engineering project with the firm Toast, focused on feature rollout, rollback, user management, authentication integration, logging, and conditional flag evaluation.",
+    title: "Cybersecurity Engineering Intern",
+    org: "CRIS · Centre for Railway Information Systems",
+    period: "May – Aug 2026",
+    text: "Built an integrated security platform spanning centralized monitoring, threat detection, phishing defence, and security-awareness simulation.",
+    highlights: [
+      "Developed an ELK-based SIEM for Windows and Linux telemetry, with automated detection and incident reporting",
+      "Designed machine-learning phishing detection using URL features and email metadata with real-time browser protection",
+      "Built PhishGuard for campaign management, interaction tracking, analytics, and awareness reporting",
+    ],
   },
   {
-    title: "Creator & Lead Developer",
-    org: "QuantLab-Suite and related portfolio projects",
-    period: "2024 – Present",
-    text: "Building finance, analytics, and systems projects that combine strong engineering fundamentals with quantitative reasoning and polished presentation.",
+    title: "Backend Developer",
+    org: "Toast – Rollout Feature Flag Platform",
+    period: "Jan – Apr 2026",
+    text: "Contributed to a ten-week team project with Toast, implementing backend services for controlled feature rollout and rollback.",
+    highlights: [
+      "Built CRUD services, DTOs, persistence models, and validation for users and feature flags",
+      "Implemented deterministic percentage rollouts and integrated the user system with authentication",
+      "Contributed to REST APIs, activity logging, database integration, and conditional flag evaluation",
+    ],
   },
 ];
 
@@ -265,44 +408,34 @@ function SectionHeader({ eyebrow, title, blurb }) {
   );
 }
 
-function ProjectMockup({ title }) {
+function ProjectMockup({ project }) {
   return (
-    <div className="overflow-hidden rounded-2xl border border-white/10 bg-zinc-900/80">
-      <div className="flex items-center justify-between border-b border-white/10 px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-zinc-500" />
-          <span className="h-2.5 w-2.5 rounded-full bg-zinc-400" />
-          <span className="h-2.5 w-2.5 rounded-full bg-zinc-300" />
+    <div className="relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-indigo-500/20 via-zinc-900 to-emerald-500/10 p-4 sm:p-6">
+      <div className="absolute -right-12 -top-12 h-40 w-40 rounded-full bg-indigo-400/10 blur-2xl" />
+      <div className="absolute -bottom-14 -left-10 h-40 w-40 rounded-full bg-emerald-400/10 blur-2xl" />
+      <div className="relative flex items-center justify-between gap-4">
+        <div className="flex items-center gap-2 text-sm text-zinc-300">
+          <Sparkles className="h-4 w-4" /> Project overview
         </div>
-        <div className="text-xs text-zinc-400">{title}</div>
+        <span className="text-xs text-zinc-400">{project.period}</span>
       </div>
-      <div className="grid gap-3 p-4">
-        <div className="grid grid-cols-3 gap-3">
-          <div className="rounded-xl border border-emerald-500/20 bg-emerald-500/10 p-3">
-            <div className="text-xs text-zinc-400">Metric A</div>
-            <div className="mt-2 text-lg font-semibold text-white">+12.4%</div>
-          </div>
-          <div className="rounded-xl border border-indigo-500/20 bg-indigo-500/10 p-3">
-            <div className="text-xs text-zinc-400">Metric B</div>
-            <div className="mt-2 text-lg font-semibold text-white">0.87</div>
-          </div>
-          <div className="rounded-xl border border-sky-500/20 bg-sky-500/10 p-3">
-            <div className="text-xs text-zinc-400">Metric C</div>
-            <div className="mt-2 text-lg font-semibold text-white">24 ms</div>
-          </div>
+      <div className="relative py-2 sm:py-5">
+        <div className="mb-2 inline-flex rounded-xl border border-white/10 bg-black/20 p-2 text-white sm:mb-4 sm:rounded-2xl sm:p-3">
+          {project.icon}
         </div>
-        <div className="rounded-xl border border-white/10 bg-black/20 p-4">
-          <div className="mb-3 flex items-end gap-2">
-            {[50, 72, 60, 88, 76, 95, 81, 92].map((h, idx) => (
-              <div
-                key={idx}
-                className="flex-1 rounded-t-md bg-white/80"
-                style={{ height: `${h}px` }}
-              />
-            ))}
-          </div>
-          <div className="text-xs text-zinc-400">Mock dashboard preview — replace with an actual screenshot in public/screenshots for deployment.</div>
+        <div className="max-w-md text-lg font-semibold tracking-tight text-white sm:text-2xl">
+          {project.caseStudy.mockTitle}
         </div>
+      </div>
+      <div className="relative flex flex-wrap gap-2">
+        {project.tags.map((tag) => (
+          <span
+            key={tag}
+            className="rounded-full border border-white/10 bg-black/25 px-3 py-1 text-xs text-zinc-200"
+          >
+            {tag}
+          </span>
+        ))}
       </div>
     </div>
   );
@@ -327,7 +460,7 @@ function ProjectVisual({ project, alt, className = "" }) {
     );
   }
 
-  return <ProjectMockup title={project.caseStudy.mockTitle} />;
+  return <ProjectMockup project={project} />;
 }
 
 function ProjectModal({ project, onClose }) {
@@ -454,7 +587,7 @@ function ProjectModal({ project, onClose }) {
                 <CardContent className="p-5">
                   <div className="mb-3 flex items-center gap-2">
                     <ImageIcon className="h-4 w-4" />
-                    <h4 className="text-lg font-semibold text-white">Screenshot note</h4>
+                    <h4 className="text-lg font-semibold text-white">Project preview</h4>
                   </div>
                   <div className="aspect-[16/10]">
                     <ProjectVisual
@@ -491,7 +624,9 @@ function ProjectModal({ project, onClose }) {
                     </div>
                   ) : null}
                   <p className="mt-3 text-sm leading-6 text-zinc-300">
-                    This preview is currently a polished mock dashboard. Replace it with your real project screenshot by adding the image to <span className="text-zinc-200">public/screenshots</span> and swapping the mock component for an image during deployment.
+                    {gallery.length
+                      ? "Browse the project gallery to see the interface and analytical workflows in more detail."
+                      : "A concise visual summary of the project’s scope, stack, and case study."}
                   </p>
                 </CardContent>
               </Card>
@@ -552,7 +687,7 @@ export default function CVPortfolioWebsite() {
               Agastya Kataria
             </div>
             <div className="text-sm text-zinc-300">
-              Computer Science • Trinity College Dublin
+              Software Engineering • Cybersecurity • Data
             </div>
           </div>
           <nav className="hidden gap-6 text-sm text-zinc-200 md:flex">
@@ -584,14 +719,14 @@ export default function CVPortfolioWebsite() {
             transition={{ duration: 0.55 }}
           >
             <h1 className="max-w-4xl text-4xl font-semibold leading-tight tracking-tight text-white sm:text-5xl lg:text-7xl">
-              Building thoughtful software, strong technical projects, and a portfolio designed to leave a lasting impression.
+              Building secure, data-driven software from backend systems to applied machine learning.
             </h1>
 
             <p className="mt-6 max-w-3xl text-lg leading-8 text-zinc-300 sm:text-xl">
-              I’m Agastya Kataria, a Computer Science undergraduate at Trinity College Dublin with an
-              <span className="font-semibold text-white"> 81% latest percentage</span>, a strong olympiad-level mathematical background,
-              and hands-on experience across backend systems, analytics platforms, and quantitative finance tools.
-              This website is intended to work as both my CV and a concise introduction to how I think, build, and contribute.
+              I’m Agastya Kataria, a Computer Science undergraduate at Trinity College Dublin with
+              <span className="font-semibold text-white"> First Class Honours (81%)</span> and hands-on
+              experience across cybersecurity engineering, backend development, machine learning,
+              and quantitative systems.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
@@ -652,7 +787,7 @@ export default function CVPortfolioWebsite() {
                   <div>
                     <div className="text-sm text-zinc-300">Profile snapshot</div>
                     <div className="text-2xl font-semibold text-white">
-                      A strong fit for internship teams that value upside
+                      Engineering range grounded in strong fundamentals
                     </div>
                   </div>
                   <div className="rounded-2xl border border-emerald-400/25 bg-emerald-400/10 px-3 py-1 text-sm text-emerald-200">
@@ -662,10 +797,10 @@ export default function CVPortfolioWebsite() {
 
                 <div className="grid gap-4 sm:grid-cols-2">
                   {[
-                    ["Latest Percentage", "81%"],
+                    ["Academic Result", "First Class · 81%"],
                     ["University", "Trinity College Dublin"],
-                    ["Core Strength", "Backend + Quantitative Systems"],
-                    ["Academic Standing", "First Class Honours (Distinction)"],
+                    ["Recent Experience", "Cybersecurity · CRIS"],
+                    ["Core Focus", "Backend + Applied ML"],
                   ].map(([k, v]) => (
                     <div key={k} className="rounded-2xl border border-white/10 bg-black/20 p-4">
                       <div className="text-sm text-zinc-300">{k}</div>
@@ -676,10 +811,11 @@ export default function CVPortfolioWebsite() {
 
                 <div className="mt-6 rounded-2xl border border-white/10 bg-black/20 p-4">
                   <div className="text-sm font-medium text-zinc-200">
-                    What this site is meant to show
+                    What I build
                   </div>
                   <p className="mt-2 text-sm leading-7 text-zinc-300">
-                    Strong analytical ability, clear communication, and a habit of turning ambitious ideas into polished technical work. The goal is simple: make it easy for a hiring manager to see both capability and trajectory.
+                    Practical systems with measurable scope: security monitoring pipelines,
+                    production-minded ML workflows, backend APIs, and analytical applications.
                   </p>
                 </div>
               </CardContent>
@@ -698,17 +834,24 @@ export default function CVPortfolioWebsite() {
         >
           <div>
             <div className={headingEyebrow}>About</div>
-            <h2 className={sectionTitle}>A concise introduction to how I work and what I could bring to a team.</h2>
+            <h2 className={sectionTitle}>Curious across domains, rigorous about how the pieces fit together.</h2>
           </div>
           <div className="space-y-5 text-lg leading-8 text-zinc-300">
             <p>
-              I’m a Computer Science undergraduate who enjoys work at the intersection of technical depth, ownership, and ambition. My experience spans backend systems, financial analytics, data-heavy applications, and engineering-focused team projects.
+              I enjoy projects that connect technical depth with a clear real-world use case. My work
+              spans backend systems, security monitoring, machine learning, data-heavy applications,
+              and quantitative finance.
             </p>
             <p>
-              What I aim to offer is not just coding ability, but the combination of fast learning, structured thinking, clear communication, and a high standard for the final product. Whether it is APIs, analytics engines, or project architecture, I care about doing the work properly.
+              During my CRIS internship, I built across the security lifecycle—from collecting
+              Windows and Linux telemetry to threat detection, phishing protection, and awareness
+              reporting. My work with Toast added collaborative backend engineering experience in a
+              company-linked team environment.
             </p>
             <p>
-              I’m looking for internship opportunities where I can contribute seriously, grow quickly, and be useful to strong teams solving meaningful problems.
+              An olympiad-level mathematics background shapes how I approach unfamiliar problems:
+              break them down carefully, test assumptions, and turn the result into software that is
+              useful and explainable.
             </p>
           </div>
         </motion.section>
@@ -724,8 +867,8 @@ export default function CVPortfolioWebsite() {
         >
           <SectionHeader
             eyebrow="Experience"
-            title="Selected experience and ongoing work"
-            blurb="A blend of collaborative software engineering work and independent technical project building."
+            title="Experience building systems with real constraints"
+            blurb="From security engineering at CRIS to collaborative backend development with Toast."
           />
 
           <div className="mt-8 grid gap-6 lg:grid-cols-2">
@@ -742,6 +885,17 @@ export default function CVPortfolioWebsite() {
                     </Badge>
                   </div>
                   <p className="mt-4 leading-7 text-zinc-300">{item.text}</p>
+                  <div className="mt-5 space-y-3 border-t border-white/10 pt-5">
+                    {item.highlights.map((highlight) => (
+                      <div
+                        key={highlight}
+                        className="flex items-start gap-3 text-sm leading-6 text-zinc-300"
+                      >
+                        <CheckCircle2 className="mt-1 h-4 w-4 shrink-0 text-emerald-300" />
+                        <span>{highlight}</span>
+                      </div>
+                    ))}
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -759,8 +913,8 @@ export default function CVPortfolioWebsite() {
         >
           <SectionHeader
             eyebrow="Projects"
-            title="Projects selected to show technical range and depth"
-            blurb="Each project card opens into a mini case-study modal with a stronger explanation of what was built and why it matters."
+            title="Selected builds across security, software, data, and finance"
+            blurb="Open any project for a concise case study covering the challenge, approach, and technical contribution."
           />
 
           <div className="mt-8 grid gap-6 xl:grid-cols-2">
@@ -818,7 +972,7 @@ export default function CVPortfolioWebsite() {
                         </Button>
                       ) : (
                         <div className="inline-flex items-center gap-2 rounded-2xl border border-amber-400/20 bg-amber-400/10 px-4 py-2 text-sm text-amber-200">
-                          <Lock className="h-4 w-4" /> Private GitLab repo
+                          <Lock className="h-4 w-4" /> Source not public
                         </div>
                       )}
                     </div>
@@ -842,12 +996,16 @@ export default function CVPortfolioWebsite() {
           transition={{ duration: 0.5 }}
         >
           <SectionHeader
-            eyebrow="Visual previews"
-            title="Mock dashboards ready to be replaced with real screenshots"
-            blurb="This keeps the site visually strong right now, while giving you an easy path to swap in actual project screenshots later."
+            eyebrow="Featured work"
+            title="A closer look at three representative builds"
+            blurb="Security engineering, quantitative systems, and collaborative backend development."
           />
           <div className="mt-8 grid gap-6 lg:grid-cols-3">
-            {projects.slice(0, 3).map((project) => (
+            {projects
+              .filter((project) =>
+                ["security-platform", "quantlab", "toast"].includes(project.id)
+              )
+              .map((project) => (
               <Card key={project.id} className="rounded-[1.75rem] border-white/10 bg-white/5">
                 <CardContent className="p-5">
                   <div className="mb-4 flex items-center gap-3">
@@ -861,7 +1019,7 @@ export default function CVPortfolioWebsite() {
                   </div>
                 </CardContent>
               </Card>
-            ))}
+              ))}
           </div>
         </motion.section>
 
@@ -878,15 +1036,15 @@ export default function CVPortfolioWebsite() {
             <CardContent className="p-7">
               <div className={headingEyebrow}>Professional strengths</div>
               <h2 className="text-3xl font-semibold tracking-tight text-white">
-                What I would aim to bring to an internship team
+                How I approach engineering work
               </h2>
               <div className="mt-6 grid gap-4">
                 {[
-                  "A strong learning curve and a genuine interest in hard technical problems",
-                  "Comfort across software engineering, analytics, and quantitative reasoning",
-                  "Care for code quality, architecture, and the quality of the final presentation",
-                  "Clear communication and a professional approach to collaboration",
-                  "High long-term upside supported by academic strength and visible project execution",
+                  "Break complex problems into testable components and explicit assumptions",
+                  "Learn unfamiliar tools quickly, then apply them in complete working systems",
+                  "Connect backend architecture, data, observability, and user-facing workflows",
+                  "Communicate technical trade-offs clearly and collaborate with a professional mindset",
+                  "Hold both implementation quality and the final user experience to a high standard",
                 ].map((point) => (
                   <div
                     key={point}
@@ -931,8 +1089,8 @@ export default function CVPortfolioWebsite() {
         >
           <SectionHeader
             eyebrow="Education and skills"
-            title="Strong fundamentals with room to grow fast"
-            blurb="A mix of software engineering, quantitative finance, and data systems skills that allows me to contribute across different kinds of teams."
+            title="A technical toolkit shaped by building"
+            blurb="The languages, platforms, and engineering concepts used across my academic, internship, and independent work."
           />
 
           <div className="mt-8 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
@@ -946,7 +1104,7 @@ export default function CVPortfolioWebsite() {
                   <div>
                     <div className="font-medium text-white">B.A. in Computer Science</div>
                     <div>Trinity College Dublin</div>
-                    <div className="text-sm text-zinc-400">Sep 2024 – Present</div>
+                    <div className="text-sm text-zinc-400">Sep 2024 – May 2028 (expected)</div>
                     <div className="mt-2 rounded-xl border border-emerald-400/20 bg-emerald-400/10 px-3 py-2 text-sm text-emerald-200">
                       Latest academic percentage: 81% • First Class Honours (Distinction)
                     </div>
@@ -954,10 +1112,12 @@ export default function CVPortfolioWebsite() {
                   <div>
                     <div className="font-medium text-white">Diploma in Python Programming</div>
                     <div>EBVTR — A Grade</div>
+                    <div className="text-sm text-zinc-400">Dec 2022 – Feb 2023</div>
                   </div>
                   <div>
                     <div className="font-medium text-white">SAT</div>
-                    <div>1440 • 95th percentile overall • 99th percentile Mathematics</div>
+                    <div>1440 • 780 Mathematics • 660 Reading & Writing</div>
+                    <div className="text-sm text-zinc-400">Feb 2023</div>
                   </div>
                 </div>
               </CardContent>
@@ -966,15 +1126,38 @@ export default function CVPortfolioWebsite() {
             <Card className="rounded-[1.75rem] border-white/10 bg-white/5">
               <CardContent className="p-7">
                 <h3 className="text-xl font-semibold text-white">Technical toolkit</h3>
-                <div className="mt-6 flex flex-wrap gap-3">
-                  {skills.map((skill) => (
-                    <Badge
-                      key={skill}
-                      className="rounded-full border border-white/10 bg-black/20 px-4 py-2 text-sm text-zinc-100"
-                    >
-                      {skill}
-                    </Badge>
+                <div className="mt-6 space-y-6">
+                  {skillGroups.map((group) => (
+                    <div key={group.label}>
+                      <h4 className="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-zinc-400">
+                        {group.label}
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {group.skills.map((skill) => (
+                          <Badge
+                            key={skill}
+                            className="rounded-full border border-white/10 bg-black/20 px-3 py-1.5 text-sm text-zinc-100"
+                          >
+                            {skill}
+                          </Badge>
+                        ))}
+                      </div>
+                    </div>
                   ))}
+                </div>
+
+                <div className="mt-8 border-t border-white/10 pt-6">
+                  <h3 className="text-lg font-semibold text-white">Selected coursework</h3>
+                  <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                    {courses.map((course) => (
+                      <div
+                        key={course}
+                        className="rounded-xl border border-white/10 bg-black/20 px-3 py-2 text-sm leading-6 text-zinc-300"
+                      >
+                        {course}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -995,12 +1178,12 @@ export default function CVPortfolioWebsite() {
               <div className="max-w-4xl">
                 <div className={headingEyebrow}>Contact</div>
                 <h2 className="text-3xl font-semibold tracking-tight text-white sm:text-4xl">
-                  Thanks for taking the time to look through my work.
+                  Interested in the problems I’m building toward?
                 </h2>
                 <p className="mt-5 text-lg leading-8 text-zinc-200">
-                  Thank you for taking the time to review my work. I’d be grateful for
-                  the opportunity to contribute with focus, learn quickly, and grow
-                  alongside a strong team.
+                  I’m open to software engineering, cybersecurity, and data-focused
+                  opportunities where I can contribute seriously, learn quickly, and
+                  work alongside a strong team.
                 </p>
                 <div className="mt-8 flex flex-wrap gap-4">
                   <Button asChild className="rounded-2xl px-6 py-6 text-base">
